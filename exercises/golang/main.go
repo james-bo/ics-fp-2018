@@ -1,10 +1,14 @@
 package main
 
 import (
-	"github.com/dikderoy/imagen/drawer"
-	"github.com/dikderoy/imagen/exercise"
-	log "github.com/sirupsen/logrus"
 	"os"
+
+	"./drawer"
+	"./exercise"
+
+	//"github.com/dikderoy/imagen/drawer"
+	//"github.com/dikderoy/imagen/exercise"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -15,7 +19,7 @@ func main() {
 	}
 
 	log.Info("starting, trying to open file")
-	f, err := os.OpenFile("mandelbrot-sample.png", os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0644)
+	f, err := os.OpenFile("mandelbrot.png", os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0644)
 	if err != nil {
 		log.WithError(err).Fatal("cannot create/open file for writing")
 	}

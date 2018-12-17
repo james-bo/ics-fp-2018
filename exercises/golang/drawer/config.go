@@ -1,10 +1,11 @@
 package drawer
 
 import (
+	"os"
+
 	log "github.com/sirupsen/logrus"
 	flag "github.com/spf13/pflag"
 	"github.com/spf13/viper"
-	"os"
 )
 
 type Config struct {
