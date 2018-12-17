@@ -101,4 +101,9 @@ cases = [ Case { description = "empty strands"
                , strand2     = "AGTG"
                , expected    = Nothing
                }
+        , Case { description = "Binary strings compare"
+               , strand1     = "10100100"
+               , strand2     = "10000110"
+               , expected    = Just 2
+               }
         ]
