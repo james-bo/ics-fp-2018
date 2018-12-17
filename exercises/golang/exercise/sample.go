@@ -1,17 +1,16 @@
 package exercise
 
 import (
-	"github.com/dikderoy/imagen/drawer"
 	"image/color"
-	//log "github.com/sirupsen/logrus"
 	"sync"
+
+	"../drawer"
 )
 
 type Mandelbrot struct {
-	iterations int
+	iterations                    int
 	scaleFactor, offsetX, offsetY float32
 }
-
 
 func NewMandelbrot(iterations int, scaleFactor float32, offsetX, offsetY float32) drawer.MandelbrotGenerator {
 	return Mandelbrot{iterations, scaleFactor, offsetX, offsetY}
@@ -19,37 +18,36 @@ func NewMandelbrot(iterations int, scaleFactor float32, offsetX, offsetY float32
 
 func (m Mandelbrot) Generate(canvas *drawer.Image) error {
 	const constSpace = 3
-	
+
 	for y := 0; y < canvas.Height; y++ {
 		for x := 0; x < canvas.Width; x++ {
-			pixY := -constSpace + float64(y)/float64(canvas.Height)*(constSpace*2)
-			pixX := -constSpace + float64(x)/float64(canvas.Width)*(constSpace*2)
-			canvas.Set(x, y, m.getPix(complex(pixX, pixY)))
+			pixY := -constSpace + float32(y)/float32(canvas.Height)*(constSpace*2)
+			pixX := -constSpace + float32(x)/float32(canvas.Width)*(constSpace*2)
+			canvas.Set(x, y, m.getColor(pixX, pixY))
 		}
 	}
-	
+
 	return nil
 }
-
 
 func (m Mandelbrot) GenerateParallel(canvas *drawer.Image) error {
 	const constSpace = 3
 	wg := sync.WaitGroup{}
-	
+
 	for y := 0; y < canvas.Height; y++ {
 		for x := 0; x < canvas.Width; x++ {
-			pixY := -constSpace + float64(y)/float64(canvas.Height)*(constSpace*2)
-			pixX := -constSpace + float64(x)/float64(canvas.Width)*(constSpace*2)
+			pixY := -constSpace + float32(y)/float32(canvas.Height)*(constSpace*2)
+			pixX := -constSpace + float32(x)/float32(canvas.Width)*(constSpace*2)
 			wg.Add(1)
-			canvas.Set(x, y, m.getColor(complex(pixY, pixX)))
+			canvas.Set(x, y, m.getColor(pixY, pixX))
 			wg.Add(1)
-			
+
 		}
 	}
 	return nil
 }
 
-func (m Mandelbrot) getColor(xy complex128) color.Color {
+func (m Mandelbrot) getColor(x0, y0 float32) color.Color {
 	x := float32(0)
 	y := float32(0)
 
@@ -62,6 +60,5 @@ func (m Mandelbrot) getColor(xy complex128) color.Color {
 		}
 	}
 
-	return color.Black
+	return color.RGBA{224, 70, 214, 255}
 }
-
