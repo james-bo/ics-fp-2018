@@ -1,10 +1,11 @@
 package main
 
 import (
+	"os"
+
 	"github.com/dikderoy/imagen/drawer"
 	"github.com/dikderoy/imagen/exercise"
 	log "github.com/sirupsen/logrus"
-	"os"
 )
 
 func main() {
@@ -28,11 +29,14 @@ func main() {
 	log.WithField("scale-factor", drawer.GlobalConfig.Algorithm.ScaleFactor).Debug("chosen factor")
 	m := exercise.NewMandelbrot(
 		drawer.GlobalConfig.Algorithm.Iterations,
-		drawer.GlobalConfig.Algorithm.ScaleFactor,
-		drawer.GlobalConfig.Image.Offset.X,
-		drawer.GlobalConfig.Image.Offset.Y,
+		15,
+		-2,
+		-2,
+		+2,
+		+2,
 	)
 
+	drawer.GlobalConfig.Algorithm.Parallel = true
 	if drawer.GlobalConfig.Algorithm.Parallel {
 		m.GenerateParallel(i)
 	} else {
