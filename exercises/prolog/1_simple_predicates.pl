@@ -10,8 +10,40 @@
 	father(b,d).  % 3
 	father(b,e).  % 4
 	father(c,f).  % 5
+	
+brother(X,Y) :- father(Z,X), father(Z,Y), X \== Y.
+cousin(X,Y) :- father(A,X),father(B,Y),brother(A,B).
+grandson(X,Y) :- father(A,X),father(Y,A).
+descendent(X,Y) :- father(Z,X),descendent(Z,Y).
+descendent(X,Y) :- father(Y,X).
+
 % указать в каком порядке и какие ответы генерируются вашими методами
+
+% второй аргумент перебирается в алфавитном порядке
+	
 	?- brother(X,Y).
+	% X = b, Y = c
+	% X = c, Y = b
+	% X = d, Y = e
+	% X = e, Y = d
+
 	?- cousin(X,Y).
+	% X = d, Y = f
+	% X = e, Y = f
+	% X = f, Y = d
+	% X = f, Y = e
+	
 	?- grandson(X,Y).
+	% X = d, Y = a
+	% X = e, Y = a
+	% X = f, Y = a
+	
 	?- descendent(X,Y).
+	% X = d, Y = a
+	% X = e, Y = a
+	% X = f, Y = a
+	% X = b, Y = a
+	% X = c, Y = a
+	% X = d, Y = b
+	% X = e, Y = b
+	% X = f, Y = c
