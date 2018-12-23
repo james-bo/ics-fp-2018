@@ -11,7 +11,29 @@
 	father(b,e).  % 4
 	father(c,f).  % 5
 % указать в каком порядке и какие ответы генерируются вашими методами
-	?- brother(X,Y).
-	?- cousin(X,Y).
-	?- grandson(X,Y).
-	?- descendent(X,Y).
+%	?- brother(X,Y).
+%	?- cousin(X,Y).
+%	?- grandson(X,Y).
+%	?- descendent(X,Y).
+	
+	
+brother(X,Y) :- father(F,X), father(F,Y), not(X=Y).
+
+cousin(X,Y) :- brother(F,U), father(F,X), father(U,Y).
+
+grandson(X,Y) :- father(F,X), father(Y,F).
+
+descendent(X,Y) :- father(Y,X) ; father(Y,S), descendent(X,S).
+
+
+:- writeln('Brothers: ').
+:- forall(brother(X,Y), (write(X), write(' is brother to '), writeln(Y))).
+
+:- writeln('Cousines: ').
+:- forall(cousin(X,Y), (write(X), write(' is cousin to '), writeln(Y))).
+
+:- writeln('Grandsons: ').
+:- forall(grandson(X,Y), (write(X), write(' is grandson to '), writeln(Y))).
+
+:- writeln('Descendents:').
+:- forall(descendent(X,Y), (write(X), write(' is descendent of '), writeln(Y))).
