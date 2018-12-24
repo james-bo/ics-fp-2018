@@ -1,10 +1,10 @@
 module Hamming (distance) where
 
-distance :: String -> String -> Int
+distance :: String -> String -> Maybe Int
 
 distance xs ys
-    | length xs /= length ys = error("lists are not the same length")
-    | otherwise = equalChar 0 xs ys
+    | length xs /= length ys = Nothing
+    | otherwise = Just (equalChar 0 xs ys)
         where equalChar n xs ys = if xs == [] && ys == []
                            then n
                            else
