@@ -12,7 +12,7 @@ import (
 
 type Mandelbrot struct {
 	iterations	int
-	scaleFactor, offsetX, offsetY float32
+	scaleFactor, offsetX, offsetY float32 
 }
 
 func (mandelBrot Mandelbrot) Generate(canvas *drawer.Image) error {

@@ -6,5 +6,5 @@ type MandelbrotGenerator interface {
 }
 
 func AutoFitScaleFactor(res int) float32 {
-	return 3.5 / float32(res)
+	return 280 / float32(res)
 }
