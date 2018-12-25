@@ -101,4 +101,14 @@ cases = [ Case { description = "empty strands"
                , strand2     = "AGTG"
                , expected    = Nothing
                }
+        , Case { description = "position swap"
+               , strand1     = "TGAGC"
+               , strand2     = "TGGAC"
+               , expected    = Just 2
+               }
+        , Case { description = "encoding error"
+               , strand1     = "⌀GA"
+               , strand2     = "СGA"
+               , expected    = Just 1
+               }
         ]
