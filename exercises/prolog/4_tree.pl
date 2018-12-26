@@ -1,5 +1,34 @@
-% Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÑ Ð¿Ñ€ÐµÐ´Ð¸ÐºÐ°Ñ‚ qsort(L,K) Ð¸Ð· Ð¿Ñ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰ÐµÐ³Ð¾ Ð·Ð°Ð´Ð°Ð½Ð¸Ñ Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ Ð¿Ñ€ÐµÐ´Ð¸ÐºÐ°Ñ‚:
-% balanced_tree(L,T) - ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð¿Ð¾ Ð·Ð°Ð´Ð°Ð½Ð½Ð¾Ð¼ ÑÐ¿Ð¸ÑÐºÑƒ ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ ÑÐ±Ð°Ð»Ð°Ð½ÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ð±Ð¸Ð½Ð°Ñ€Ð½Ð¾Ðµ Ð´ÐµÑ€ÐµÐ²Ð¾ Ð¿Ð¾Ð¸ÑÐºÐ°
-% Ð´Ð»Ñ Ð¿Ð¾ÑÑ‚Ñ€Ð¾ÐµÐ½Ð¸Ñ Ð´ÐµÑ€ÐµÐ²Ð° Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ðµ  Ð½Ð¾Ñ‚Ð°Ñ†Ð¸Ð¸:
-% empty - Ð¿ÑƒÑÑ‚Ð¾Ðµ Ð´ÐµÑ€ÐµÐ²Ð¾ 
-% instant(R, L, R) - Ð±Ð¸Ð½Ð°Ñ€Ð½Ð¾Ðµ Ð´ÐµÑ€ÐµÐ²Ð¾ Ñ ÐºÐ¾Ñ€Ð½ÐµÐ¼ R Ð¸ Ð´Ð²ÑƒÐ¼Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€ÐµÐ²ÑŒÑÐ¼Ð¸ L Ð¸ R ÑÐ¾Ð¾Ñ‚Ð²ÐµÑÑ‚Ð²ÐµÐ½Ð½Ð¾ (Ð»ÐµÐ²Ð¾Ðµ Ð¸ Ð¿Ñ€Ð°Ð²Ð¾Ðµ)
+% èñïîëüçóÿ ïðåäèêàò qsort(L,K) èç ïðåäûäóùåãî çàäàíèÿ ðàçðàáîòàòü ïðåäèêàò:
+% balanced_tree(L,T) - êîòîðûé ïî çàäàííîì ñïèñêó ñòðîèò ñáàëàíñèðîâàííîå áèíàðíîå äåðåâî ïîèñêà
+% äëÿ ïîñòðîåíèÿ äåðåâà èñïîëüçîâàòü ñëåäóþùèå  íîòàöèè:
+% empty - ïóñòîå äåðåâî
+% instant(R, L, R) - áèíàðíîå äåðåâî ñ êîðíåì R è äâóìÿ ïîääåðåâüÿìè L è R ñîîòâåñòâåííî (ëåâîå è ïðàâîå)
+balanced_tree(L,T) :- bin_tree(L,T).
+pivot(_,[],[],[]).
+pivot(Piv, [H|T], [H|LOrEqT], GrT) :- Piv >= H, pivot(Piv, T, LOrEqT, GrT).
+pivot(Piv, [H|T], LOrEqT, [H|GrT]) :- Piv < H, pivot(Piv, T, LOrEqT, GrT).
+
+qsort([], []).
+qsort([H|T], SortList) :- pivot(H, T, L1, L2), qsort(L1, SortList1), qsort(L2, SortList2),append(SortList1, [H|SortList2], SortList).
+
+bin_tree([],empty).
+
+bin_tree([H|[]], instant(H,empty,empty)):- !.
+
+bin_tree([T|[H|[]]],instant(H,L,empty)):- T =< H, bin_tree([T],L).
+
+bin_tree([H|[T|[]]],instant(H,L,empty)):- H < T,bin_tree([T],L).
+
+bin_tree(L, instant(R, Left, Right)):- qsort(L,SL), append(LList, [R|RList], SL),
+        length(LList, LengthL), length([R|RList], LengthR), (LengthL =:= LengthR;
+        LengthL =:= (LengthR - 1)), bin_tree(LList, Left), bin_tree(RList, Right),!.
+
+%?- balanced_tree([3,1],T).
+%T = instant(3, instant(1, empty, empty), empty) .
+
+%?- balanced_tree([1,3],T).
+%T = instant(1, empty, instant(3, empty, empty)) .
+
+
+
+
